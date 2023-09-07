@@ -1,22 +1,41 @@
 import React from "react";
-
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function Card(props) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const isOwn = props.card.owner._id === currentUser._id;
+  const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+  const cardDeleteButtonClassName = (
+    `elements__delete-btn ${isOwn ? 'elements__delete-btn_visible' : ''}`
+  );
+
+  const cardLikeButtonClassName = (
+    `elements__button ${isLiked ? 'elements__button_active' : ''}`
+  );
+
   function handleClick() {
-    props.onCardClick(props.card)
+    props.onCardClick(props.card);
   }
 
-  return(
+  function handleLikeClick() {
+    props.onCardLike(props.card);
+  }
+
+  function handleDeleteClick() {
+    props.onCardDelete(props.card);
+  }
+
+  return (
     <article className="elements__element">
-    <button type="button" className="elements__delete-btn" title='удалить'/>
-    <img src={props.link} alt={props.name} title="Посмотреть в полном размере" className="elements__image" onClick={handleClick}/>
-    <div className="elements__figcaption">
-      <h2 className="elements__title">{props.name}</h2>
-      <div className="elements__likes-info">
-        <button className="elements__button" type="button" title='нравится'/>
-        <span className="elements__counter-likes">{props.likes}</span>
+      <button type="button" className={cardDeleteButtonClassName} title='удалить' onClick={handleDeleteClick} />
+      <img src={props.link} alt={props.name} title="Посмотреть в полном размере" className="elements__image" onClick={handleClick} />
+      <div className="elements__figcaption">
+        <h2 className="elements__title">{props.name}</h2>
+        <div className="elements__likes-info">
+          <button className={cardLikeButtonClassName} type="button" title='нравится' onClick={handleLikeClick} />
+          <span className="elements__counter-likes">{props.likes}</span>
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
   )
 }
 

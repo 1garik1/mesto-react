@@ -30,12 +30,15 @@ class Api {
       return Promise.all([this.getInitialCards(), this.getUserInfo()]);
     }
   
-    updateUserInfo(body) {
+    updateUserInfo(data) {
       const requestUrl = this._baseUrl + '/users/me';
       return fetch(requestUrl, {
         method: 'PATCH',
         headers: this._headers,
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          name: data.profile_name,
+          about: data.profile_job
+        })
       }).then(this._checkResponse);
     }
   
@@ -48,8 +51,8 @@ class Api {
       }).then(this._checkResponse);
     }
   
-    removeCard(cardId) {
-      const requestUrl = this._baseUrl + `/cards/${cardId}`;
+    removeCard(data) {
+      const requestUrl = this._baseUrl + `/cards/${data._id}`;
       return fetch(requestUrl, {
         method: 'DELETE',
         headers: this._headers,
@@ -72,18 +75,20 @@ class Api {
       }).then(this._checkResponse);
     }
   
-    updateProfileAvatar(body) {
+    updateProfileAvatar(data) {
       const requestUrl = this._baseUrl + `/users/me/avatar`;
       return fetch(requestUrl, {
         method: 'PATCH',
         headers: this._headers,
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          avatar: data.avatar_link
+        })
       }).then(this._checkResponse);
     }
   }
   
   const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-72/',
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-72',
     headers: {
       authorization: 'cc9224db-b3d0-4df0-a276-203050427490',
       'Content-Type': 'application/json'
