@@ -9,7 +9,6 @@ import EditProfilePopup from './EditProfilePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 function App() {
-  const [isProfilePopupOpened, setIsProfilePopupOpened] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -91,14 +90,13 @@ function App() {
     }
   }
   function closeAllPopups() {
-    setIsProfilePopupOpened(false);
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
   }
   useEffect(() => {
-    if (isProfilePopupOpened || isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard) {
+    if (isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard) {
       function handleEsc(evt) {
         if (evt.key === 'Escape') {
           closeAllPopups();
@@ -111,7 +109,7 @@ function App() {
         document.removeEventListener('keydown', handleEsc);
       }
     }
-  }, [isProfilePopupOpened, isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen, selectedCard]);
+  }, [isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen, selectedCard]);
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
