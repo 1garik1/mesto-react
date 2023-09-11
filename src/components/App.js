@@ -34,7 +34,7 @@ function App() {
   }
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-  
+
     if (!isLiked) {
       api.addCardLike(card._id).then((newCard) => {
         setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
@@ -84,7 +84,7 @@ function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
   }
-  function handlePopupCloseClick(evt) {
+  function handleClosePopupByOverlay(evt) {
     if (evt.target.classList.contains('popup')) {
       closeAllPopups();
     }
@@ -115,37 +115,37 @@ function App() {
       <div className="page">
         <Header />
         <Main
-           onEditAvatar={handleEditAvatarClick}
-           onEditProfile={handleEditProfileClick}
-           onAddPlace={handleAddPlaceClick}
-           onCardClick={handleCardClick}
-           cards={cards}
-           onCardLike={handleCardLike}
-           onCardDelete={handleCardDelete}
+          onEditAvatar={handleEditAvatarClick}
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onCardClick={handleCardClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
-        <EditProfilePopup 
-            isOpen={isEditProfilePopupOpen} 
-            onCloseClick={handlePopupCloseClick} 
-            onClose={closeAllPopups} 
-            onSubmit={handleUpdateUser}
-          />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onCloseClick={handleClosePopupByOverlay}
+          onClose={closeAllPopups}
+          onSubmit={handleUpdateUser}
+        />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          onCloseClick={handlePopupCloseClick}
+          onCloseClick={handleClosePopupByOverlay}
           onClose={closeAllPopups}
           onSubmit={handleAddPlaceSubmit}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          onCloseClick={handlePopupCloseClick}
+          onCloseClick={handleClosePopupByOverlay}
           onClose={closeAllPopups}
           onSubmit={handleAvatarUpdate}
         />
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}
-          onCloseClick={handlePopupCloseClick}
+          onCloseClick={handleClosePopupByOverlay}
         />
       </div>
     </CurrentUserContext.Provider>
